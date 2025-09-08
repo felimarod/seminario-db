@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, Time, ForeignKey
+from sqlalchemy import Column, Integer, String, Date, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from .base import Base
 
@@ -8,8 +8,8 @@ class Reserva(Base):
     id_recurso = Column(Integer, ForeignKey("recurso.id_recurso"), nullable=False)
     id_usuario = Column(Integer, ForeignKey("usuario.id_usuario"), nullable=False)
     fecha = Column(Date, nullable=False)
-    hora_inicio = Column(Time, nullable=False)
-    hora_fin = Column(Time, nullable=False)
+    hora_inicio = Column(DateTime, nullable=False)
+    hora_fin = Column(DateTime, nullable=False)
     estado = Column(String(20), nullable=False)
     recurso = relationship("Recurso", back_populates="reservas")
     usuario = relationship("Usuario", back_populates="reservas")

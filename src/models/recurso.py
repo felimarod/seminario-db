@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, JSON, ForeignKey, Text
+from sqlalchemy import Column, Integer, String, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from .base import Base
 
@@ -8,6 +8,6 @@ class Recurso(Base):
     id_tipo = Column(Integer, ForeignKey("tipo_recurso.id_tipo"), nullable=False)
     nombre = Column(String(100), nullable=False)
     foto = Column(String(255))
-    caracteristicas = Column(JSON)
+    caracteristicas = Column(Text)
     tipo = relationship("TipoRecurso", back_populates="recursos")
     reservas = relationship("Reserva", back_populates="recurso")

@@ -19,6 +19,12 @@ def create_tables(engine: Any) -> None:
     """
     Base.metadata.create_all(engine)
 
+def drop_tables(engine: Any) -> None:
+    """
+    Elimina todas las tablas en la base de datos.
+    """
+    Base.metadata.drop_all(engine)
+
 def get_session(engine: Any) -> Any:
     """
     Retorna una sesión de SQLAlchemy.
