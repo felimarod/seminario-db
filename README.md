@@ -1,16 +1,16 @@
 # seminario-db
 
-Sistema de gestión de recursos y reservas para seminario usando OracleDB y SQLAlchemy.
+Sistema de gestión de recursos y reservas para seminario usando PostgreSQL y SQLAlchemy.
 
 ## Características
 - Modelos ORM separados por entidad
-- Conexión a OracleDB mediante variables de entorno
+- Conexión a PostgreSQL mediante variables de entorno
 - Estructura moderna y limpia (PEP8, Poetry, .env, .gitignore)
 - Fácil de extender y mantener
 
 ## Requisitos
 - Python >= 3.10
-- OracleDB accesible
+- PostgreSQL accesible
 - [Poetry](https://python-poetry.org/) instalado
 
 ## Instalación
@@ -19,14 +19,7 @@ poetry install
 ```
 
 ## Configuración
-Crea un archivo `.env` en la raíz del proyecto con tus credenciales:
-```
-ORACLE_USER=usuario
-ORACLE_PASSWORD=password
-ORACLE_HOST=localhost
-ORACLE_PORT=1521
-ORACLE_SERVICE=xe
-```
+Crea un archivo `.env` en la raíz del proyecto con las credenciales
 
 ## Uso
 Para crear las tablas en la base de datos:

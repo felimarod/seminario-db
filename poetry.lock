@@ -664,4 +664,4 @@ markers = {dev = "python_version == \"3.10\""}
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10"
-content-hash = "c9538995c9721e0b7d6032e23548acb6e8f6280993159a02144cd3c836fa2765"
+content-hash = "c1ab48f1f74c26fb56e7a4d645324d1e3a6571d7d9e1b9b913d598daca99b53f"

@@ -1,0 +1,84 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: seminario_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+    
+    - name: Install dependencies
+      run: |
+        poetry install --with dev
+    
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        until pg_isready -h localhost -p 5432; do
+          echo "Waiting for PostgreSQL..."
+          sleep 2
+        done
+    
+    - name: Setup database
+      env:
+        PGPASSWORD: postgres
+      run: |
+        # Crear base de datos de pruebas si no existe
+        psql -h localhost -U postgres -d postgres -c "CREATE DATABASE seminario_test;" || true
+    
+    - name: Run tests
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/seminario_test
+      run: |
+        poetry run pytest tests/ -v --cov=src --cov-report=xml
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Deploy to production
+      run: |
+        echo "Deploying to production environment"
+        # Aquí puedes agregar los comandos de despliegue específicos
+        # Por ejemplo, usando Docker, SSH, o servicios en la nube
